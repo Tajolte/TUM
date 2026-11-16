@@ -10,7 +10,7 @@
 </section>
 <section class="panel" id="welcome"><h2>¡Bienvenido a tu nueva comunidad!</h2><p>Vivir en el albergue, conocer nuevas personas y pasar tiempo lejos de casa puede traer alegría, dudas y nostalgia. Todas esas emociones merecen respeto.</p><p>Lee cada situación y elige qué harías. Si te equivocas, aprenderás con una explicación. <strong>No es un examen ni un diagnóstico.</strong></p><div class="chips"><span class="chip">🏡 Vida en el albergue</span><span class="chip">🤝 Confianza</span><span class="chip">🧭 Pedir apoyo</span><span class="chip">💬 Convivencia</span></div><p class="notice"><strong>Importante:</strong> los cargos y procedimientos pueden variar. Si no sabes quién es tu tutor o quién está de guardia, pregunta al personal de la universidad. Ante una emergencia o riesgo inmediato, avisa al personal responsable y solicita servicios de emergencia (911 en México).</p><button class="primary" style="width:100%;margin-top:16px" onclick="start()">🚀 Comenzar mi aventura</button></section>
 <section class="panel hidden" id="game"><div class="topline"><span id="mission" class="mission"></span><span id="counter" class="muted small"></span></div><div class="progress" role="progressbar" aria-label="Avance del juego" aria-valuemin="0" aria-valuemax="25" id="progress"><div class="bar" id="bar"></div></div><h2 class="question" id="question"></h2><div id="choices" class="choices"></div><div id="feedback" class="feedback hidden" aria-live="polite"></div><button id="next" class="primary hidden" style="width:100%;margin-top:15px" onclick="advance()">Siguiente situación →</button></section>
-<section class="panel hidden" id="finish"><div class="award">🏅🌿</div><h2 style="text-align:center">¡Ya eres parte de esta comunidad!</h2><p id="score" style="text-align:center;font-weight:800"></p><p>Lo importante no es acertar todo, sino recordar que <strong>pedir ayuda es una muestra de valentía</strong> y que siempre mereces un trato digno.</p><div class="notice">🧭 <strong>Mi ruta de apoyo:</strong> Tutor o docente para asuntos académicos; coordinación del albergue para convivencia, instalaciones y estancia; servicios de orientación o bienestar para apoyo emocional, si existen; coordinación académica o autoridades para asuntos que no se resuelven por la vía habitual. Rectoría puede recibir asuntos institucionales que requieran escalamiento. Ante riesgo o emergencia, pide ayuda inmediata.</div><h3>💌 Mi compromiso conmigo</h3><p class="muted">Escribe una acción sencilla que te ayudará a sentirte mejor esta semana. Es opcional y no se envía a nadie.</p><textarea id="reflection" placeholder="Por ejemplo: hablar con mi tutor, conocer a otro compañero o llamar a mi familia..."></textarea><div class="feedback" id="registerStatus" role="status" aria-live="polite">Registrando tu participación…</div><button id="retryCount" class="retry hidden" onclick="registerCompletion()">🔄 Reintentar el registro</button><div class="actions"><button class="primary" onclick="share()">📲 Compartir mi logro por WhatsApp</button><button class="primary" onclick="restart()">🔄 Volver a jugar</button></div><p class="small muted" id="shareinfo">Al compartir, tú decides qué enviar. Tu reflexión personal no se incluye.</p></section><footer class="footer">Actividad educativa de acompañamiento · UTM · Las respuestas y reflexiones permanecen en tu navegador; si el contador general está activado, solo se registra que terminaste el juego, no tus respuestas ni tu nombre.</footer></main><script>
+<section class="panel hidden" id="finish"><div class="award">🏅🌿</div><h2 style="text-align:center">¡Ya eres parte de esta comunidad!</h2><p id="score" style="text-align:center;font-weight:800"></p><p>Lo importante no es acertar todo, sino recordar que <strong>pedir ayuda es una muestra de valentía</strong> y que siempre mereces un trato digno.</p><div class="notice">🧭 <strong>Mi ruta de apoyo:</strong> Tutor o docente para asuntos académicos; coordinación del albergue para convivencia, instalaciones y estancia; servicios de orientación o bienestar para apoyo emocional, si existen; coordinación académica o autoridades para asuntos que no se resuelven por la vía habitual. Rectoría puede recibir asuntos institucionales que requieran escalamiento. Ante riesgo o emergencia, pide ayuda inmediata.</div><h3>💌 Mi compromiso conmigo</h3><p class="muted">Escribe una acción sencilla que te ayudará a sentirte mejor esta semana. Es opcional y no se envía a nadie.</p><textarea id="reflection" placeholder="Por ejemplo: hablar con mi tutor, conocer a otro compañero o llamar a mi familia..."></textarea><div class="feedback" id="registerStatus" role="status" aria-live="polite">Guardando tus respuestas…</div><button id="retryCount" class="retry hidden" onclick="retrySubmission()">🔄 Reintentar el registro</button><div class="actions"><button class="primary" onclick="share()">📲 Compartir mi logro por WhatsApp</button><button class="primary" onclick="restart()">🔄 Volver a jugar</button></div><p class="small muted" id="shareinfo">Al compartir, tú decides qué enviar. Tu reflexión personal no se incluye.</p></section><footer class="footer">Actividad educativa de acompañamiento · UTM · Al completar las 25 situaciones, se guardan tus opciones y tu puntuación para el seguimiento educativo. El juego no solicita tu nombre. Tu reflexión personal no se envía.</footer></main><script>
 const groups=['🏡 Mi nueva casa universitaria','💚 No estoy solo','🧭 ¿A quién puedo acudir?','🤝 Construyendo confianza','🦌 Soy parte de la UTM'];
 // c: respuesta recomendada; e: explicación que orienta sin culpabilizar.
 const Q=[
@@ -41,63 +41,217 @@ const Q=[
 ['¿Cuál de estas frases puede acompañarme durante mi adaptación?',['Tengo que poder con todo sin ayuda','Pertenecer significa ser igual a los demás','Estoy aprendiendo, merezco respeto y puedo pedir apoyo'],2,'No tienes que hacerlo todo perfecto ni solo. Tu comunidad universitaria puede ser una red de apoyo.']
 ];
 // CONFIGURACIÓN: usa SOLO la clave publicable (sb_publishable_...), nunca la clave secret.
-// Sigue las instrucciones del archivo INSTRUCCIONES.md antes de publicar el contador.
+// Ejecuta activar_respuestas_utm.sql en este proyecto de Supabase antes de publicar el HTML.
 const COUNTER_CONFIG = {
   supabaseUrl: 'https://ksivhmgsapmbxrmdqyfc.supabase.co',
   publishableKey: 'sb_publishable_5Pw1vBgfhr7-mddbJJs2Xw_t7ip8WID'
 };
 const STORAGE_KEY = 'utm_partidas_completadas_v1';
-let index=0,score=0,answered=false,attemptId='',attemptRecorded=false,recordingNow=false,localRecorded=false;
-const el=id=>document.getElementById(id);
-const counterConfigured=()=>COUNTER_CONFIG.supabaseUrl.startsWith('https://') && COUNTER_CONFIG.publishableKey.startsWith('sb_publishable_');
-function localCount(){try{return Number(localStorage.getItem(STORAGE_KEY))||0}catch{return 0}}
-function updateLocalCount(){el('localCount').textContent=String(localCount())}
-function countLocally(){if(localRecorded)return;localRecorded=true;try{localStorage.setItem(STORAGE_KEY,String(localCount()+1))}catch{}updateLocalCount()}
-function makeAttemptId(){if(globalThis.crypto && typeof crypto.randomUUID==='function')return crypto.randomUUID();return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.floor(Math.random()*16);return (c==='x'?r:(r&3|8)).toString(16)})}
-async function rpc(name,body={}){
-  const url=COUNTER_CONFIG.supabaseUrl.replace(/\/$/,'')+'/rest/v1/rpc/'+name;
-  const response=await fetch(url,{method:'POST',headers:{'apikey':COUNTER_CONFIG.publishableKey,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!response.ok)throw Error('Error de conexión: '+response.status);
-  return response.json();
+const PENDING_PREFIX = 'utm_respuesta_pendiente_v1:';
+const pendingAttempts = new Map();
+const submissionsInProgress = new Set();
+const el = id => document.getElementById(id);
+let index = 0;
+let score = 0;
+let answered = false;
+let attemptId = '';
+let answers = [];
+let displayedTotal = null;
+
+function localCount() {
+  try { return Number(localStorage.getItem(STORAGE_KEY)) || 0; }
+  catch { return 0; }
 }
-function displayGlobalCount(value){const n=Number(value);if(!Number.isFinite(n)||n<0)throw Error('Respuesta inesperada del contador');el('globalCount').textContent=new Intl.NumberFormat('es-MX').format(n)}
-async function refreshCount(){
-  if(!counterConfigured()){
-    el('counterStatus').textContent='El contador general estará disponible cuando el docente configure Supabase. El juego funciona normalmente.';
-    el('globalCount').textContent='—';return;
+
+function updateLocalCount() {
+  el('localCount').textContent = String(localCount());
+}
+
+function countLocally() {
+  const total = localCount() + 1;
+  try { localStorage.setItem(STORAGE_KEY, String(total)); }
+  catch { /* El juego puede continuar si el navegador bloquea el almacenamiento. */ }
+  el('localCount').textContent = String(total);
+}
+
+function makeAttemptId() {
+  if (globalThis.crypto && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, char => {
+    const random = Math.floor(Math.random() * 16);
+    return (char === 'x' ? random : (random & 3) | 8).toString(16);
+  });
+}
+
+async function rpc(name, body = {}) {
+  const url = COUNTER_CONFIG.supabaseUrl.replace(/\/$/, '') + '/rest/v1/rpc/' + name;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { apikey: COUNTER_CONFIG.publishableKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      keepalive: true,
+      signal: controller.signal
+    });
+    if (!response.ok) throw new Error(`Error de Supabase (${response.status})`);
+    return await response.json();
+  } finally {
+    clearTimeout(timeout);
   }
-  try{displayGlobalCount(await rpc('utm_consultar_contador'));el('counterStatus').textContent='Contador general actualizado.'}
-  catch(err){el('counterStatus').textContent='No se pudo consultar el total compartido. Comprueba tu conexión.';el('globalCount').textContent='—'}
 }
-function show(id){['welcome','game','finish'].forEach(x=>el(x).classList.toggle('hidden',x!==id));window.scrollTo({top:0,behavior:'smooth'})}
-function start(){index=0;score=0;attemptId=makeAttemptId();attemptRecorded=false;recordingNow=false;localRecorded=false;el('registerStatus').textContent='';el('registerStatus').className='feedback';el('retryCount').classList.add('hidden');show('game');render()}
-function render(){answered=false;const q=Q[index];el('mission').textContent=groups[Math.floor(index/5)];el('counter').textContent=`${index+1} de ${Q.length}`;el('bar').style.width=`${index/Q.length*100}%`;el('progress').setAttribute('aria-valuenow',index);el('question').textContent=q[0];el('choices').innerHTML='';q[1].forEach((s,i)=>{let b=document.createElement('button');b.className='choice';b.textContent=s;b.onclick=()=>answer(i);el('choices').appendChild(b)});el('feedback').classList.add('hidden');el('next').classList.add('hidden');el('next').textContent=index===Q.length-1?'🏅 Ver mi reconocimiento':'Siguiente situación →'}function answer(choice){if(answered)return;answered=true;const q=Q[index];let good=choice===q[2];if(good)score++;[...el('choices').children].forEach((b,i)=>{b.disabled=true;if(i===q[2])b.classList.add('correct');else if(i===choice)b.classList.add('wrong')});el('feedback').innerHTML=`<strong>${good?'🌟 ¡Buena decisión!':'💡 ¡Aquí hay una oportunidad para aprender!'}</strong><p>${q[3]}</p>`;el('feedback').classList.remove('hidden');el('next').classList.remove('hidden')}function advance(){index++;if(index>=Q.length){
-  el('score').textContent=`Completaste las 25 situaciones · ${score} respuestas recomendadas`;
-  el('bar').style.width='100%';countLocally();show('finish');registerCompletion();
-}else render()}
-async function registerCompletion(){
-  if(attemptRecorded||recordingNow)return;
-  if(!counterConfigured()){
-    el('registerStatus').textContent='✅ Terminaste el juego. Se guardó el conteo de este dispositivo; el total general necesita configuración por el docente.';
-    el('retryCount').classList.add('hidden');return;
+
+function displayGlobalCount(value) {
+  const total = Number(value);
+  if ((typeof value !== 'number' && typeof value !== 'string') || value === '' ||
+      !Number.isSafeInteger(total) || total < 0) throw new Error('Total inválido');
+  displayedTotal = Math.max(displayedTotal ?? 0, total);
+  el('globalCount').textContent = new Intl.NumberFormat('es-MX').format(displayedTotal);
+  el('counterStatus').textContent = 'Contador general actualizado.';
+}
+
+async function refreshCount() {
+  try {
+    displayGlobalCount(await rpc('utm_consultar_contador'));
+  } catch {
+    if (displayedTotal === null) {
+      el('counterStatus').textContent = 'No se pudo consultar el total compartido.';
+    }
   }
-  recordingNow=true;
-  el('retryCount').classList.add('hidden');
-  el('registerStatus').textContent='⏳ Registrando esta partida terminada en el contador general…';
-  el('registerStatus').className='feedback';
-  try{
-    // El mismo ID de intento evita contar dos veces si se reintenta por fallas de red.
-    const total=await rpc('utm_registrar_finalizacion',{p_intento_id:attemptId});
-    displayGlobalCount(total);attemptRecorded=true;
-    el('registerStatus').textContent='✅ ¡Participación registrada! El contador general se actualizó.';
-    el('counterStatus').textContent='Contador general actualizado.';
-  }catch(err){
-    el('registerStatus').textContent='⚠️ No se pudo confirmar el registro general. Tu juego sí está terminado. Puedes reintentar.';
-    el('registerStatus').className='feedback status-error';
-    el('retryCount').classList.remove('hidden');
-  }finally{recordingNow=false}
 }
+
+function show(id) {
+  ['welcome', 'game', 'finish'].forEach(panel => el(panel).classList.toggle('hidden', panel !== id));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setSubmissionStatus(message, canRetry = false) {
+  el('registerStatus').textContent = message;
+  el('registerStatus').classList.toggle('status-error', canRetry);
+  el('retryCount').classList.toggle('hidden', !canRetry);
+}
+
+function start() {
+  index = 0;
+  score = 0;
+  answers = [];
+  attemptId = makeAttemptId();
+  setSubmissionStatus('');
+  show('game');
+  render();
+}
+
+function render() {
+  answered = false;
+  const [question, options] = Q[index];
+  el('mission').textContent = groups[Math.floor(index / 5)];
+  el('counter').textContent = `${index + 1} de ${Q.length}`;
+  el('bar').style.width = `${index / Q.length * 100}%`;
+  el('progress').setAttribute('aria-valuenow', index);
+  el('question').textContent = question;
+  el('choices').replaceChildren();
+  options.forEach((option, choice) => {
+    const button = document.createElement('button');
+    button.className = 'choice';
+    button.textContent = option;
+    button.onclick = () => answer(choice);
+    el('choices').appendChild(button);
+  });
+  el('feedback').classList.add('hidden');
+  el('next').classList.add('hidden');
+  el('next').textContent = index === Q.length - 1 ? '🏅 Ver mi reconocimiento' : 'Siguiente situación →';
+}
+
+function answer(choice) {
+  if (answered) return;
+  answered = true;
+  answers.push(choice);
+  const [, , recommended, explanation] = Q[index];
+  const good = choice === recommended;
+  if (good) score++;
+  [...el('choices').children].forEach((button, option) => {
+    button.disabled = true;
+    if (option === recommended) button.classList.add('correct');
+    else if (option === choice) button.classList.add('wrong');
+  });
+  el('feedback').innerHTML = `<strong>${good ? '🌟 ¡Buena decisión!' : '💡 ¡Aquí hay una oportunidad para aprender!'}</strong><p>${explanation}</p>`;
+  el('feedback').classList.remove('hidden');
+  el('next').classList.remove('hidden');
+  el('bar').style.width = `${answers.length / Q.length * 100}%`;
+  el('progress').setAttribute('aria-valuenow', answers.length);
+  if (answers.length === Q.length) {
+    countLocally();
+    queueCompletion();
+  }
+}
+
+function advance() {
+  if (!answered || index >= Q.length) return;
+  index++;
+  if (index < Q.length) {
+    render();
+    return;
+  }
+  el('score').textContent = `Completaste las ${Q.length} situaciones · ${score} respuestas recomendadas`;
+  show('finish');
+}
+
+function queueCompletion() {
+  const attempt = { p_intento_id: attemptId, p_version: 1, p_respuestas: [...answers] };
+  pendingAttempts.set(attemptId, attempt);
+  try { localStorage.setItem(PENDING_PREFIX + attemptId, JSON.stringify(attempt)); }
+  catch { /* Se mantiene disponible en esta pestaña para reintentar. */ }
+  flushPending();
+}
+
+function restorePending() {
+  try {
+    for (const key of Object.keys(localStorage)) {
+      if (!key.startsWith(PENDING_PREFIX)) continue;
+      const id = key.slice(PENDING_PREFIX.length);
+      if (pendingAttempts.has(id)) continue;
+      try {
+        const attempt = JSON.parse(localStorage.getItem(key));
+        if (attempt?.p_intento_id === id) pendingAttempts.set(id, attempt);
+      } catch { /* Una copia ilegible no impide reenviar las demás partidas. */ }
+    }
+  } catch { /* El navegador puede bloquear el almacenamiento. */ }
+}
+
+function flushPending() {
+  restorePending();
+  for (const attempt of pendingAttempts.values()) submitAttempt(attempt);
+}
+
+function retrySubmission() {
+  const attempt = pendingAttempts.get(attemptId);
+  if (attempt) submitAttempt(attempt);
+}
+
+async function submitAttempt(attempt) {
+  const id = attempt.p_intento_id;
+  if (submissionsInProgress.has(id)) return;
+  submissionsInProgress.add(id);
+  if (id === attemptId) setSubmissionStatus('⏳ Guardando tus respuestas…');
+  try {
+    displayGlobalCount(await rpc('utm_guardar_respuestas', attempt));
+    pendingAttempts.delete(id);
+    try { localStorage.removeItem(PENDING_PREFIX + id); }
+    catch { /* El mismo identificador evita duplicados si se reenvía. */ }
+    if (id === attemptId) setSubmissionStatus('✅ Tus respuestas se guardaron.');
+  } catch {
+    if (id === attemptId) {
+      setSubmissionStatus('⚠️ El guardado quedó pendiente. Comprueba tu conexión y pulsa «Reintentar el registro».', true);
+    }
+  } finally {
+    submissionsInProgress.delete(id);
+  }
+}
+
 function restart(){el('reflection').value='';start()}function share(){const msg=`🌱 ¡Completé Misión UTM: Mi hogar universitario! 🦌\nRespondí 25 situaciones para aprender a convivir, adaptarme y pedir ayuda cuando la necesito.\n💚 Pedir apoyo también es una fortaleza.\nUniversidad Tecnológica del Mezquital.${location.protocol==='https:' || location.protocol==='http:' ? '\n🎮 Juega aquí: '+location.href.split('#')[0].split('?')[0] : ''}`;window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener');el('shareinfo').textContent='Se abrirá WhatsApp para que elijas a quién enviar tu logro. No se comparte tu reflexión ni tus respuestas.'}
 
-updateLocalCount();refreshCount();
+updateLocalCount();
+refreshCount();
+flushPending();
+window.addEventListener('online', flushPending);
 </script></body></html>
